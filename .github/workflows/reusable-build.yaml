@@ -1,0 +1,30 @@
+name: build
+on:
+  workflow_call:
+
+jobs:
+  build:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java-version: [ 21, 22 ]
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Java ${{ matrix.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: corretto
+          cache: 'gradle'
+
+      - name: Build and Test Java
+        run: ./gradlew build jacocoTestReport --build-cache
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
