@@ -1,2 +1,2 @@
-# kotlin-java
-Equivalent code samples in Kotlin and Java
+# java-kotlin
+Equivalent code samples in Java and Kotlin
