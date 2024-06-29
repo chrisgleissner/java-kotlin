@@ -14,9 +14,16 @@ public class DtoJavaSample implements CodeSample {
 
     @Override
     public void run(List<String> args) {
-        val department = Department.builder().name(args.getFirst()).head(Employee.builder().name("John Doe").build()).build();
+        val department = Department.builder()
+            .name(args.getFirst())
+            .head(Employee.builder()
+                .name("John Doe").build())
+            .build();
         if (log.isInfoEnabled()) {
-            log.info("The head of {} department is {}", department.name(), Optional.ofNullable(department.head()).map(head -> head.name).orElse("Unknown"));
+            log.info("The head of {} department is {}", department.name(),
+                Optional.ofNullable(department.head())
+                    .map(head -> head.name)
+                    .orElse("Unknown"));
         }
     }
 
