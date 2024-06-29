@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import uk.gleissner.javakotlin.CodeSample
 
-abstract class AbstractCodeSampleSimpleTest(
+abstract class AbstractCodeSampleTest(
     private val javaCodeSample: CodeSample,
     private val kotlinCodeSample: CodeSample
 ) {
