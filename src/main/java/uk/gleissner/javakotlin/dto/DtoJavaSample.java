@@ -16,9 +16,7 @@ public class DtoJavaSample implements CodeSample {
     public void run(List<String> args) {
         val department = Department.builder().name(args.getFirst()).head(Employee.builder().name("John Doe").build()).build();
         if (log.isInfoEnabled()) {
-            val headName = Optional.ofNullable(department.head()).map(head -> head.name).orElse("Unknown");
-            val departmentName = department.name();
-            log.info("The head of {} department is {}", departmentName, headName);
+            log.info("The head of {} department is {}", department.name(), Optional.ofNullable(department.head()).map(head -> head.name).orElse("Unknown"));
         }
     }
 
