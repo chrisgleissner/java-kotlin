@@ -36,6 +36,7 @@ abstract class AbstractCodeSampleSimpleTest(
         @JvmStatic
         fun args() = listOf(
             listOf(null),
+            listOf(""),
             listOf("Name")
         )
     }
