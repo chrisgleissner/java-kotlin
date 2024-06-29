@@ -13,8 +13,6 @@ class DtoKotlinSample : CodeSample {
 
     override fun run(args: List<String>) {
         val department = Department(name = args[0], head = Employee(name = "John Doe"))
-        val headName = department.head?.name ?: "Unknown"
-        val departmentName = department.name
-        log.info { "The head of $departmentName department is $headName" }
+        log.info { "The head of ${department.name} department is ${department.head?.name ?: "Unknown"}" }
     }
 }

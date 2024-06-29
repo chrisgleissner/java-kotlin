@@ -7,6 +7,7 @@ import lombok.val;
 import uk.gleissner.javakotlin.CodeSample;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class DtoJavaSample implements CodeSample {
@@ -14,9 +15,11 @@ public class DtoJavaSample implements CodeSample {
     @Override
     public void run(List<String> args) {
         val department = Department.builder().name(args.getFirst()).head(Employee.builder().name("John Doe").build()).build();
-        val headName = department.head() != null ? department.head().name() : "Unknown";
-        val departmentName = department.name();
-        log.info("The head of {} department is {}", departmentName, headName);
+        if (log.isInfoEnabled()) {
+            val headName = Optional.ofNullable(department.head()).map(head -> head.name).orElse("Unknown");
+            val departmentName = department.name();
+            log.info("The head of {} department is {}", departmentName, headName);
+        }
     }
 
     @Builder
