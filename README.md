@@ -5,4 +5,4 @@
 
 This repo contains equivalent code samples to compare [Lombok-ed Java 21](https://projectlombok.org/) with [Kotlin](https://kotlinlang.org/):
 
-- DTO: [Java](./src/main/java/uk/gleissner/kotlinjava/dto/DtoJavaSample.java) - [Kotlin](./src/main/java/uk/gleissner/kotlinjava/dto/DtoKotlinSample.kt)
+- DTO: [Java](./src/main/java/uk/gleissner/javakotlin/dto/DtoJavaSample.java) - [Kotlin](./src/main/java/uk/gleissner/javakotlin/dto/DtoKotlinSample.kt)

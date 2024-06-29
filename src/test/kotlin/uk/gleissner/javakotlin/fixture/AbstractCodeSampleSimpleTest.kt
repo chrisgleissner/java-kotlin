@@ -1,10 +1,10 @@
-package uk.gleissner.kotlinjava.fixture
+package uk.gleissner.javakotlin.fixture
 
 import nl.altindag.log.LogCaptor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import uk.gleissner.kotlinjava.CodeSample
+import uk.gleissner.javakotlin.CodeSample
 
 abstract class AbstractCodeSampleSimpleTest(
     private val javaCodeSample: CodeSample,

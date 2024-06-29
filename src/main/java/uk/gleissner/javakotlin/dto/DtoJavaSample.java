@@ -1,10 +1,10 @@
-package uk.gleissner.kotlinjava.dto;
+package uk.gleissner.javakotlin.dto;
 
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import uk.gleissner.kotlinjava.CodeSample;
+import uk.gleissner.javakotlin.CodeSample;
 
 import java.util.List;
 

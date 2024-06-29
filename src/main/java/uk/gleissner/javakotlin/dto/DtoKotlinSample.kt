@@ -1,7 +1,7 @@
-package uk.gleissner.kotlinjava.dto
+package uk.gleissner.javakotlin.dto
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import uk.gleissner.kotlinjava.CodeSample
+import uk.gleissner.javakotlin.CodeSample
 
 class DtoKotlinSample : CodeSample {
 
