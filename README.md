@@ -74,15 +74,11 @@ This chapter compares equivalent code in Java and Kotlin.
 
 Description of table columns:
 
-- **Sample**: Interface implemented by both Java and Kotlin.
+- **Sample**: Interface implemented by both Java and Kotlin: Java prod code - Kotlin prod code - Java test - Kotlin test. Both tests verify both varieties of prod code.
 - **Description**: High-level overview of sample use case.
 - **imm, data, etc.**: IDs of Kotlin features examined by the sample; see table above.
-- **Java prod code**: Java-based implementation of sample interface.
-- **Kotlin prod code**: Kotlin-based implementation of sample interface.
-- **Java Test**: testing both Java and Kotlin prod code.
-- **Kotlin Test**: ditto
 
-| Sample                                                                | Description                                   | imm | data | exc | null | string | scope | ext | Java                                                                   | Kotlin                                                                   | Java Test                                                                       | Kotlin Test                                                                       |
-|-----------------------------------------------------------------------|-----------------------------------------------|-----|------|-----|------|--------|-------|-----|------------------------------------------------------------------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| [DtoSample](./src/main/java/uk/gleissner/javakotlin/dto/DtoSample.kt) | Build immutable DTO, convert to JSON, and log | ✓   | ✓    | ✓   | ✓    | ✓      | ✓     |     | [Java](./src/main/java/uk/gleissner/javakotlin/dto/JavaDtoSample.java) | [Kotlin](./src/main/java/uk/gleissner/javakotlin/dto/KotlinDtoSample.kt) | [Java Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleJavaTest.java) | [Kotlin Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleKotlinTest.kt) |
+| Sample                                                                                                                                                                                                                                                                                                                                                                                        | Description                                   | imm | data | exc | null | string | scope | ext |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-----|------|-----|------|--------|-------|-----|
+| [DtoSample](./src/main/java/uk/gleissner/javakotlin/dto/DtoSample.kt): [Java](./src/main/java/uk/gleissner/javakotlin/dto/JavaDtoSample.java) - [Kotlin](./src/main/java/uk/gleissner/javakotlin/dto/KotlinDtoSample.kt) - [Java Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleJavaTest.java) -[Kotlin Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleKotlinTest.kt) | Build immutable DTO, convert to JSON, and log | ✓   | ✓    | ✓   | ✓    | ✓      | ✓     |     |
 
