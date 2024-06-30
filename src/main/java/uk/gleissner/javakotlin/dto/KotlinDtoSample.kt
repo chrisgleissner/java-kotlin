@@ -17,7 +17,7 @@ class KotlinDtoSample(@Autowired private val objectMapper: ObjectMapper) : DtoSa
         }
     }
 
-    data class Department(val name: String, val head: Employee?)
+    data class Department(val name: String = "IT", val head: Employee?)
 
     data class Employee(val name: String?)
 }
