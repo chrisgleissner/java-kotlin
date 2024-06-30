@@ -34,7 +34,7 @@ Java projects typically rely on [Lombok](https://projectlombok.org/) in order to
     - For example, the use of Lombok's `val` resulted in very slow compile times when the Java 11 LTS version was officially released. This [bug](https://github.com/projectlombok/lombok/issues/2131) lasted for months until a fix was provided. Until that happened, we were forced to
       replace all `val` references with `var` since the compilation times had increased from 10s to 2 minutes.
     - The Java code samples in this project won't compile on Java 22 due to `post-compiler 'lombok.bytecode.SneakyThrowsRemover' caused an exception: java.lang.IllegalArgumentException: Unsupported class file major version 66` since at this time,
-      only [initial Java 22 support](https://projectlombok.org/changelog) as been added.
+      only [initial Java 22 support](https://projectlombok.org/changelog) has been added.
 - Lombok relies on annotations, but as it does not support [meta-annotations](https://github.com/projectlombok/lombok/issues/2294), this can result in a large number of annotations cluttering the code base and
   reducing maintainability.
 - Similar to Lombok, Kotlin can be viewed as a tool to simplify Java code where beneficial in order to improve code maintainability, but with an improved upgrade path as Kotlin does not rely on the `javac` compiler.
