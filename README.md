@@ -31,7 +31,7 @@ Java projects typically rely on [Lombok](https://projectlombok.org/) in order to
 
 - Lombok is a 3rd party library and, though unlikely, some of its features may fall into disrepair in future Java versions as it relies on the `javac` compiler.
 - After each new Java version, Lombok's support of this version may be delayed or features may introduce regressions.
-    - For example, the use of Lombok's `val` resulted in very slow compile times several years ago whilst lasted for months until a fix was provided. Until that happened, we were forced to
+    - For example, the use of Lombok's `val` resulted in very slow compile times when Java 11 was released. This [bug](https://github.com/projectlombok/lombok/issues/2131) lasted for months until a fix was provided. Until that happened, we were forced to
       replace all `val` references with `var` since the compilation times had increased from 10s to 2 minutes.
     - The Java code samples in this project won't compile on Java 22 due to `post-compiler 'lombok.bytecode.SneakyThrowsRemover' caused an exception: java.lang.IllegalArgumentException: Unsupported class file major version 66` since at this time,
       only [initial Java 22 support](https://projectlombok.org/changelog) as been added.
