@@ -74,7 +74,7 @@ This chapter compares equivalent code in Java and Kotlin.
 
 Description of table columns:
 
-- **Sample**: Interface implemented by both Java and Kotlin: Java prod code - Kotlin prod code - Java test - Kotlin test. Both tests verify both varieties of prod code.
+- **Sample**: Interface followed by implementations for Java and Kotlin, then followed by tests using Java and Kotlin. Both tests verify both implementations.
 - **Description**: High-level overview of sample use case.
 - **imm, data, etc.**: IDs of Kotlin features examined by the sample; see table above.
 
