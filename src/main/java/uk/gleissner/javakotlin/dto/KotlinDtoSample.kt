@@ -11,7 +11,6 @@ class KotlinDtoSample(private val objectMapper: ObjectMapper) : DtoSample {
     private val log = KotlinLogging.logger {}
 
     data class Department(val name: String = "IT", val head: Employee?)
-
     data class Employee(val name: String?)
 
     override fun departmentJson(departmentName: String, departmentHeadName: String?): String {
