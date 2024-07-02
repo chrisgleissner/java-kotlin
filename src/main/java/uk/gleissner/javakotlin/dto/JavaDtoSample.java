@@ -16,7 +16,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class JavaDtoSample implements DtoSample {
+
     private final ObjectMapper objectMapper;
+
+    @Builder(toBuilder = true)
+    record Department(@NonNull String name, Employee head) {
+    }
+
+    @Builder(toBuilder = true)
+    record Employee(@NonNull String name) {
+    }
 
     @NotNull
     @Override
@@ -24,7 +33,7 @@ public class JavaDtoSample implements DtoSample {
         val department = Department.builder()
             .name(departmentName)
             .head(Optional.ofNullable(departmentHeadName)
-                .map(n -> Employee.builder().name(n).build())
+                .map(employeeName -> Employee.builder().name(employeeName).build())
                 .orElse(null))
             .build();
         try {
@@ -35,12 +44,17 @@ public class JavaDtoSample implements DtoSample {
             throw new RuntimeException(e);
         }
     }
-    
-    @Builder
-    record Department(@NonNull String name, Employee head) {
+
+    @Override
+    public boolean deserializedDepartmentJsonMatches(@NotNull String json, @NotNull String json2) {
+        return departmentFor(json).equals(departmentFor(json2));
     }
 
-    @Builder
-    record Employee(@NonNull String name) {
+    private Department departmentFor(String json) {
+        try {
+            return objectMapper.readValue(json, Department.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
