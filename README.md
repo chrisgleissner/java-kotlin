@@ -61,38 +61,335 @@ Modern Java projects typically rely on [Project Lombok](https://projectlombok.or
 - It does not rely on annotations to extend Java features, thus improving readability.
 - The language has a large number of [active contributors](https://github.com/JetBrains/kotlin/graphs/contributors) and JetBrain's Kotlin team has [100+ engineers](https://kotlinlang.org/docs/faq.html#who-develops-kotlin). It is backed by both JetBrains and Google.
 
-## Useful Kotlin Features
+# Useful Kotlin Features
 
-Kotlin provides a number of useful features for a Java developer which are easy to learn. Properly leveraged, they result in code that's easier
-to read and maintain than the equivalent Java code.
+Kotlin provides a number of useful features for a Java developer which are easy to learn. Properly leveraged, they result in code that's easier to read and maintain than the equivalent Java code.
 
-| Feature                                                                                              | Feature ID | Description                                                                                                                                                                                                                                                                   | Kotlin Example                            | Java Alternative                                                                                        | Assessment                                                                                                    | 
-|------------------------------------------------------------------------------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| [Data classes](https://kotlinlang.org/docs/data-classes.html)                                        | dat        | Data holder classes with default values.                                                                                                                                                                                                                                      | `data class Dept(val name: String)`       | Lombok `@Builder` and `@NonNull`, e.g. `@Builder record Dept(@NonNull String name) {}`)                 | Java is more verbose: `builder()/toBuilder()/build()` methods and no default values in `record`s.             |
-| [Data access](https://kotlinlang.org/docs/classes.html)                                              | acc        | [Instantiate](https://kotlinlang.org/docs/classes.html#creating-instances-of-classes) without `new`, [access properties](https://kotlinlang.org/docs/properties.html#declaring-properties) without `get/set`, [compare](https://kotlinlang.org/docs/equality.html) with `==`. | `Dept("IT").name == "IT"`                 | `new Dept("IT").getName().equals("IT")`                                                                 | Java is more verbose and Lombok does not provide solutions.                                                   |
-| [Exceptions](https://kotlinlang.org/docs/exceptions.html)                                            | exc        | Kotlin does not have checked exceptions since they have fallen [out of favour](https://kotlinlang.org/docs/exceptions.html#checked-exceptions) with many developers as they increase code clutter.                                                                            |                                           | `try / catch` exception and rethrow non-checked or Lombok's `SneakyThrows` (currently fails on Java 22) | Java is more verbose, requiring workarounds that introduce code clutter.                                      |
-| [Extensions](https://kotlinlang.org/docs/extensions.html)                                            | ext        | Extend an existing Kotlin or Java API with new features, e.g. for a fluent API and improved readability.                                                                                                                                                                      | `entity.dto.json`                         | Nested methods in reverse processing order: `json(dto(entity))`                                         | Java is harder to read and creating a fluent API is not easy for 3rd party libraries.                         |
-| [Immutability](https://kotlinlang.org/docs/basic-syntax.html#variables)                              | imm        | Variables can be defined as `val` (immutable) and `var` (mutable). Parameters are always immutable.                                                                                                                                                                           |                                           | Lombok `val` and Java `var`, but not supported for  method parameters and instance/class fields.        | Java is more verbose, requiring workarounds using the `final` keyword.                                        |
-| [Null-safe declarations](https://kotlinlang.org/docs/null-safety.html)                               | nul        | Explicit type declaration as non-nullable (default) or nullable, using the `?` null-safety operator, allowing for compile-time null safety.                                                                                                                                   | `val s: String?`                          | Lombok `@NonNull`, Spring `@Nullable` or Java `Optional`, e.g. `@Nullable final String s`               | Java has no compile-time null-safety and is more verbose.                                                     |
-| [Null-safe calls](https://kotlinlang.org/docs/null-safety.html)                                      | nul        | Access nullable fields via the [?.](https://kotlinlang.org/docs/null-safety.html#safe-calls) operator, defining fallbacks via the [?:](https://kotlinlang.org/docs/null-safety.html#elvis-operator) "Elvis" operator.                                                         | `a?.bar`                                  | Null check like `a == null ? null : a.bar` or `Optional` mapping                                        | Java is more verbose.                                                                                         | 
-| [Scope functions](https://kotlinlang.org/docs/scope-functions.html)                                  | scp        | Allows for fluent code via method chaining and `it/this` references, e.g. to log result as side effect of returning it.                                                                                                                                                       | `return map(a).also { log { "res=$it" }}` | Declare local variable, then access: `val res = map(a); log("res={}", res); return res;`                | Java is more verbose and adds increased cognitive load due to "single use" variables instead of a fluent API. |
-| [Spaces in Test Methods](https://kotlinlang.org/docs/coding-conventions.html#names-for-test-methods) | spc        | Long test method names can contain spaces. They are thus more readable and match [Cucumber](https://cucumber.io/docs/cucumber/step-definitions/?lang=java) BDD step annotations.                                                                                              | ``fun `Given foo When bar Then baz`() {`` | `void Given_foo_When_bar_Then_baz() {`                                                                  | Java is slightly harder to read due to using underscores instead of spaces.                                   |
-| [String templates](https://kotlinlang.org/docs/strings.html#string-templates)                        | str        | Reference variables directly from strings.                                                                                                                                                                                                                                    | `"foo=$foo, bar=$bar"`                    | Separate placeholders and variables: `"foo=%s, bar=%s".formatted(foo, bar)`                             | Java is harder to read, especially when using many variables.                                                 |
-| [Nested functions](https://kotlinlang.org/docs/functions.html#function-scope)                        | fun        | Nested private helper functions to improve encapsulation.                                                                                                                                                                                                                     | `fun foo():Int { fun bar():Int {...}}`    | Could use inner classes or factor out into other classes, but less flexible.                            | Splitting methods quickly results in pollution of class namespace.                                            | 
-| [One-line functions](https://kotlinlang.org/docs/functions.html#function-usage)                      | fun        | One-line function without result type, `return` statement and braces to reduce ceremony and preserve screen real-estate.                                                                                                                                                      | `fun add(a: Int, b: Int) = a + b`         | `int add(int a, int b) { return a + b; }`, typically formatted as 3 lines.                              | Java wastes vertical screen real estate, leading to more scrolling.                                           | 
+## Data classes
+
+**Kotlin**
+
+Data holder classes with default values:
+
+```
+data class Dept(val name: String = "IT", val staffCount: Int = 0)
+
+val itDept = Dept()
+val itDept2 = itDept.copy(staffCount = 1)
+val hrDept = Dept(name = "HR")
+```
+
+**Java**
+
+Java is more verbose and requires `builder()/toBuilder()/build()` methods.
+
+It also has no default values in `record`s, and if using Java's built-in `record`s instead of Lombok's `@Value` annotation, `@Builder.Default` (an additional Lombok annotation to mimic Kotlin defaults) cannot be used, showing
+the complications that Lombok faces in trying to introduce backdoors to the Java language:
+
+```
+@Builder(toBuilder = true)
+record Dept(@NonNull String name, int staffCount) {
+}
+
+val itDept = Dept.builder().name("IT").build();
+val itDept2 = itDept.toBuilder().staffCount(1).build();
+val hrDept = Dept.builder().name("HR");
+```
+
+## Data access
+
+**Kotlin**
+
+Allows to [instantiate](https://kotlinlang.org/docs/classes.html#creating-instances-of-classes) classes without `new`, [access properties](https://kotlinlang.org/docs/properties.html#declaring-properties) without `get/set`, and [compare](https://kotlinlang.org/docs/equality.html) objects
+semantically with `==`:
+
+```
+val isItDept = Dept("IT").name == "IT"
+```
+
+**Java**
+
+Java is more verbose:
+
+```
+val isItDept = new Dept("IT").getName().equals("IT");
+```
+
+## Exceptions
+
+**Kotlin**
+
+Kotlin does not have checked exceptions since they have fallen [out of favour](https://kotlinlang.org/docs/exceptions.html#checked-exceptions) with many developers as they increase code clutter:
+
+```
+fun foo() {
+    methodWhichThrowsCheckedFooException()
+}
+
+```
+
+**Java**
+
+Java is more verbose, requiring workarounds that introduce code clutter:
+
+```
+void foo() {
+    try {
+        methodWhichThrowsCheckedFooException();
+    } catch (FooException e) {
+        throw new RuntimeException(e);
+    }
+}
+```
+
+or
+
+```
+@SneakyThrows
+void foo() {
+    methodWhichThrowsCheckedFooException();
+}
+```
+
+## Extensions
+
+**Kotlin**
+
+Extend an existing Kotlin or Java API with new features, e.g. for a fluent API and improved readability:
+
+```
+// Extension setup to enrich classes with new methods; only needed once
+Foo.toDto(): Dto = dto(it) 
+Dto.toJson(): String = json(it) 
+
+val json = foo.toDto().toJson()
+```
+
+**Java**
+
+Java is harder to read since multiple transformations results in increasing nesting levels. Creating a fluent API is not easy for 3rd party libraries beyond the developer's control:
+
+```
+val json = json(dto(entity));
+```
+
+## Immutability
+
+**Kotlin**
+
+Variables can be defined as `val` (immutable) and `var` (mutable). Parameters are always immutable.
+
+```
+val a = "hello"
+var b = "world"
+
+fun log(s: String) {
+    println(s)    
+}
+```
+
+**Java**
+
+Lombok has `val` and Java provides `var`, but neither is supported for method parameters and instance/class fields, resulting in more verbose code.
+
+```
+val a = "hello";
+var b = "world";
+
+void log(final String s) {
+    System.out.println(s);    
+}
+```
+
+## Null-safe declarations
+
+**Kotlin**
+
+Explicit type declaration as non-nullable (default) or nullable, using the `?` null-safety operator, allowing for compile-time null safety:
+
+```
+val s: String?
+```
+
+**Java**
+
+Java has no compile-time null-safety and is more verbose, regardless which of the following alternatives is used:
+
+```
+// Lombok-based, generates code that throws NPE if setter for this field passes in null
+@NonNull 
+final String s;
+
+// Spring-based, informs IDE to show warning and will also be interpreted by Lombok
+@Nullable 
+final String s;
+
+// Denotes s as maybe absent
+Optional<String> s; 
+```
+
+## Null-safe calls
+
+**Kotlin**
+
+Access nullable fields via the [?.](https://kotlinlang.org/docs/null-safety.html#safe-calls) operator, defining fallbacks via the [?:](https://kotlinlang.org/docs/null-safety.html#elvis-operator) "Elvis" operator:
+
+```
+val bar = a?.bar ?: null
+```
+
+**Java**
+
+Java is more verbose, either using
+
+```
+val bar = a == null ? null : a.getBar();
+```
+
+or
+
+```
+val bar = Optional.ofNullable(a)
+    .map(a -> a.getBar())
+    .orElse(null);
+
+```
+
+## Scope functions
+
+**Kotlin**
+
+Allows for fluent code via method chaining and `it/this` references, e.g. to log the result of a `map(a)` invocation as side effect of returning it:
+
+```
+return map(a).also { log { "result=$it" } }
+```
+
+**Java**
+
+Java is more verbose and adds increased cognitive load due to "single use" variables which pollute a methods namespace instead of a leveraging a fluent API:
+
+```
+val result = map(a); 
+log("result={}", res); 
+return res;
+```
+
+## Spaces in Test Methods
+
+**Kotlin**
+
+Long test method names can contain spaces. They are thus more readable.
+
+In particular, if using [Cucumber](https://cucumber.io/docs/cucumber/step-definitions/?lang=java) BDD (Behavior Driven Development) step annotations, the annotation can exactly match the method name and can be kept in synch more easily:
+
+```
+// JUnit 5
+@Test
+fun `Given foo When bar Then baz`() {
+}
+
+// Cucumber BDD Step
+@When("user {word} logs in")
+fun `user {word} logs in`(userName: String) {
+}
+
+```
+
+**Java**
+
+Java is harder to read and maintain due to using underscores instead of spaces:
+
+```
+// JUnit 5
+@Test
+void Given_foo_When_bar_Then_baz() {
+}
+
+// Cucumber BDD Step
+@When("user {word} logs in")
+void user_word_logs_in(final String userName) {
+}
+
+```
+
+## String templates
+
+**Kotlin**
+
+Reference variables directly from strings:
+
+```
+val s = "foo=$foo, bar=$bar"
+```
+
+**Java**
+
+Java is harder to read, especially when using many variables:
+
+```
+val s = "foo=%s, bar=%s".formatted(foo, bar);
+```
+
+## Nested functions
+
+**Kotlin**
+
+Nested private helper functions to improve encapsulation:
+
+```
+fun foo(): Int { 
+
+    fun helperOnlyUsedByFoo(): Int {
+        //...
+    } 
+}
+```
+
+**Java**
+
+Splitting methods quickly results in pollution of the class namespace, making it harder to see which method a dedicated helper method is used by:
+
+```
+int foo() {
+    //...
+}
+
+fun helperOnlyUsedByFoo(): Int {
+    //...
+}
+```
+
+## One-line functions
+
+**Kotlin**
+
+One-line function without result type, `return` statement and braces to reduce ceremony and preserve screen real-estate:
+
+```
+fun add(a: Int, b: Int) = a + b
+```
+
+**Java Example**
+
+Java wastes vertical screen real estate, leading to more scrolling and context switching:
+
+```
+int add(int a, int b) { 
+    return a + b; 
+}
+```
 
 ## Kotlin Code Samples
 
 This chapter compares equivalent code in Java and Kotlin.
 
-Description of table columns:
+### [DtoSample](./src/main/java/uk/gleissner/javakotlin/dto/DtoSample.kt)
 
-- **Sample**: Interface followed by implementations for Java and Kotlin, then followed by tests using Java and Kotlin. Both tests verify both implementations.
-- **Description**: High-level overview of sample use case.
-- **dat, acc, ...**: IDs of Kotlin features examined by the sample; see table above.
+Purpose: JSON to DTO conversions, mapping and logging.
 
-| Sample                                                                                                                                                                                                                                                                                                                                                                                        | Description                                   | dat | acc | exc | ext | imm | nul | scp | spa | str | fun |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-| [DtoSample](./src/main/java/uk/gleissner/javakotlin/dto/DtoSample.kt): [Java](./src/main/java/uk/gleissner/javakotlin/dto/JavaDtoSample.java) - [Kotlin](./src/main/java/uk/gleissner/javakotlin/dto/KotlinDtoSample.kt) - [Java Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleJavaTest.java) -[Kotlin Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleKotlinTest.kt) | Build immutable DTO, convert to JSON, and log | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   | ✓   |
-
+- [Java](./src/main/java/uk/gleissner/javakotlin/dto/JavaDtoSample.java) Implementation
+- [Kotlin](./src/main/java/uk/gleissner/javakotlin/dto/KotlinDtoSample.kt) Implementation
+- [Java Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleJavaTest.java) of both Java and Kotlin implementation
+- [Kotlin Test](./src/test/java/uk/gleissner/javakotlin/dto/DtoSampleKotlinTest.kt), ditto
 

@@ -1,10 +1,10 @@
 package uk.gleissner.javakotlin.dto;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +27,9 @@ public class JavaDtoSample implements DtoSample {
     record Employee(@NonNull String name) {
     }
 
-    @NotNull
     @Override
+    @NotNull
+    @SneakyThrows
     public String departmentJson(@NonNull String departmentName, String departmentHeadName) {
         val department = Department.builder()
             .name(departmentName)
@@ -36,13 +37,9 @@ public class JavaDtoSample implements DtoSample {
                 .map(employeeName -> Employee.builder().name(employeeName).build())
                 .orElse(null))
             .build();
-        try {
-            val departmentJson = objectMapper.writeValueAsString(department);
-            log.info("Created department JSON for (departmentName={}, employeeName={}): {}", departmentName, departmentHeadName, departmentJson);
-            return departmentJson;
-        } catch (JsonProcessingException e) { // Required since Java 22 does not support @SneakyThrows as of Lombok v1.18.34
-            throw new RuntimeException(e);
-        }
+        val departmentJson = objectMapper.writeValueAsString(department);
+        log.info("Created department JSON for (departmentName={}, employeeName={}): {}", departmentName, departmentHeadName, departmentJson);
+        return departmentJson;
     }
 
     @Override
@@ -50,11 +47,8 @@ public class JavaDtoSample implements DtoSample {
         return departmentFor(json).equals(departmentFor(json2));
     }
 
+    @SneakyThrows
     private Department departmentFor(String json) {
-        try {
-            return objectMapper.readValue(json, Department.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return objectMapper.readValue(json, Department.class);
     }
 }
