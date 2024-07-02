@@ -1,6 +1,5 @@
 package uk.gleissner.javakotlin.dto
 
-import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import nl.altindag.log.LogCaptor
 import org.assertj.core.api.Assertions.assertThat
@@ -69,10 +68,9 @@ internal class DtoSampleKotlinTest(
 
         @ParameterizedTest
         @MethodSource("samples")
-        @Throws(JsonProcessingException::class)
         fun `Given two non matching JSON strings When they are compared Then the result is false`(sut: DtoSample) {
-            val departmentJson: String = objectMapper.jsonOf(department)
-            val departmentJson2: String = objectMapper.jsonOf(department.copy(name = "HR"))
+            val departmentJson = objectMapper.jsonOf(department)
+            val departmentJson2 = objectMapper.jsonOf(department.copy(name = "HR"))
             assertThat(sut.deserializedDepartmentJsonMatches(departmentJson, departmentJson2)).isFalse()
         }
 
