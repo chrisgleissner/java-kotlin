@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import uk.gleissner.javakotlin.AbstractSampleTest;
 import uk.gleissner.javakotlin.dto.JavaDtoSample.Department;
 import uk.gleissner.javakotlin.dto.JavaDtoSample.Employee;
@@ -23,14 +22,8 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @RequiredArgsConstructor
 class DtoSampleJavaTest extends AbstractSampleTest {
-
-    @Autowired
     private final JavaDtoSample javaDtoSample;
-
-    @Autowired
     private final KotlinDtoSample kotlinDtoSample;
-
-    @Autowired
     private final ObjectMapper objectMapper;
 
     @Nested

@@ -1,13 +1,12 @@
 package uk.gleissner.javakotlin.dto
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import uk.gleissner.javakotlin.config.JacksonConfig.Companion.fromJson
 
 @Component
-class KotlinDtoSample(@Autowired private val objectMapper: ObjectMapper) : DtoSample {
+class KotlinDtoSample(private val objectMapper: ObjectMapper) : DtoSample {
 
     private val log = KotlinLogging.logger {}
 
@@ -25,7 +24,7 @@ class KotlinDtoSample(@Autowired private val objectMapper: ObjectMapper) : DtoSa
     }
 
     override fun deserializedDepartmentJsonMatches(json: String, json2: String): Boolean {
-        fun departmentFor(json: String) = objectMapper.fromJson<Department>(json)
+        fun departmentFor(json: String) = objectMapper.readValue<Department>(json)
         return departmentFor(json) == departmentFor(json2)
     }
 }

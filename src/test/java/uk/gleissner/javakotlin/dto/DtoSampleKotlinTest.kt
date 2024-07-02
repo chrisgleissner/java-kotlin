@@ -10,16 +10,14 @@ import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.springframework.beans.factory.annotation.Autowired
 import uk.gleissner.javakotlin.AbstractSampleTest
-import uk.gleissner.javakotlin.config.JacksonConfig.Companion.jsonOf
 import uk.gleissner.javakotlin.dto.KotlinDtoSample.Department
 import uk.gleissner.javakotlin.dto.KotlinDtoSample.Employee
 
 internal class DtoSampleKotlinTest(
-    @Autowired private val javaDtoSample: JavaDtoSample,
-    @Autowired private val kotlinDtoSample: KotlinDtoSample,
-    @Autowired private val objectMapper: ObjectMapper
+    private val javaDtoSample: JavaDtoSample,
+    private val kotlinDtoSample: KotlinDtoSample,
+    private val objectMapper: ObjectMapper
 ) : AbstractSampleTest() {
 
     @Nested
@@ -57,7 +55,9 @@ internal class DtoSampleKotlinTest(
     @Nested
     @TestInstance(PER_CLASS)
     inner class DeserializedDepartmentJsonMatches {
+
         private val department = Department(name = "IT", head = Employee(name = "Miller"))
+        private fun ObjectMapper.jsonOf(any: Any): String = writeValueAsString(any)
 
         @ParameterizedTest
         @MethodSource("samples")
