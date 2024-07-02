@@ -81,11 +81,6 @@ to read and maintain than the equivalent Java code.
 | [Nested functions](https://kotlinlang.org/docs/functions.html#function-scope)                        | fun        | Nested private helper functions to improve encapsulation.                                                                                                                                                                                                                     | `fun foo():Int { fun bar():Int {...}}`    | Could use inner classes or factor out into other classes, but less flexible.                            | Splitting methods quickly results in pollution of class namespace.                                            | 
 | [One-line functions](https://kotlinlang.org/docs/functions.html#function-usage)                      | fun        | One-line function without result type, `return` statement and braces to reduce ceremony and preserve screen real-estate.                                                                                                                                                      | `fun add(a: Int, b: Int) = a + b`         | `int add(int a, int b) { return a + b; }`, typically formatted as 3 lines.                              | Java wastes vertical screen real estate, leading to more scrolling.                                           | 
 
-Other Benefits:
-
-- One line methods
-- No need to use newline after starting multi-line string with """
-
 ## Kotlin Code Samples
 
 This chapter compares equivalent code in Java and Kotlin.
