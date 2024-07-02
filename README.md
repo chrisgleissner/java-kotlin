@@ -89,7 +89,7 @@ Description of table columns:
 
 - **Sample**: Interface followed by implementations for Java and Kotlin, then followed by tests using Java and Kotlin. Both tests verify both implementations.
 - **Description**: High-level overview of sample use case.
-- **imm, data, etc.**: IDs of Kotlin features examined by the sample; see table above.
+- **dat, acc, ...**: IDs of Kotlin features examined by the sample; see table above.
 
 | Sample                                                                                                                                                                                                                                                                                                                                                                                        | Description                                   | dat | acc | exc | ext | imm | nul | scp | spa | str | fun |
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
