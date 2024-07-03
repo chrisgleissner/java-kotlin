@@ -369,7 +369,7 @@ private int helperOnlyUsedByFoo() {
 Extend an existing Kotlin or Java API with new features, for example to provide a fluent API for improved readability:
 
 ```kotlin
-// Extension setup to enrich classes with new methods; only needed once
+// Add new methods to classes Foo and Dto; only needed once
 fun Foo.toDto(): Dto = dto(this)
 fun Dto.toJson(): String = json(this)
 
