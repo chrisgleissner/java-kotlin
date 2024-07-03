@@ -69,7 +69,7 @@ Kotlin provides a number of useful features for a Java developer which are easy 
 
 **Kotlin**
 
-Data holder classes with default values:
+Data holder classes with default values, providing `getter/setter/toString/equals/hashCode` as well as `copy` methods:
 
 ```kotlin
 data class Dept(val name: String = "IT", val staffCount: Int = 0)
@@ -81,8 +81,14 @@ val hrDept = Dept(name = "HR")
 
 **Java**
 
-Java is more verbose and requires `builder()/toBuilder()/build()` methods. It also has no default values in `record`s, and if using Java's built-in `record`s instead of Lombok's `@Value` annotation, `@Builder.Default` (an additional Lombok annotation to mimic Kotlin defaults) cannot be used, showing
-the complications that Lombok faces in trying to introduce backdoors to the Java language:
+Java is more verbose and requires `builder/toBuilder/build` methods.
+
+Additional downsides:
+
+- If using Lombok's `@Value` annotation, then Lombok's `@Builder.Default` can be used for default values. However, this feature is not available of using Java `record`s instead.
+- If starting out with Java `record`s and the for default values arises, then switching towards `@Value` requires refactoring since both approaches use different field declarations and different syntax for getter methods.
+
+Java `record` approach which cannot uses defaults and exposes a `name()` method:
 
 ```java
 
@@ -91,8 +97,29 @@ record Dept(@NonNull String name, int staffCount) {
 }
 
 val itDept = Dept.builder().name("IT").build();
+val itDeptName = itDept.name();
 val itDept2 = itDept.toBuilder().staffCount(1).build();
-val hrDept = Dept.builder().name("HR");
+val hrDept = Dept.builder().name("HR").build();
+```
+
+Lombok `@Value` approach which can use defaults and exposes a `getName()` method:
+
+```java
+
+@Value
+@Builder(toBuilder = true)
+class Dept {
+
+    @NonNull
+    @Builder.Default
+    String name = "IT";
+
+    int staffCount;
+}
+
+val itDept = Dept.builder().build();
+val itDeptName = itDept.getName();
+// ...as above...
 ```
 
 ### Data Access
@@ -148,28 +175,6 @@ or
 void foo() {
     methodWhichThrowsCheckedFooException();
 }
-```
-
-### Extensions
-
-**Kotlin**
-
-Extend an existing Kotlin or Java API with new features, for example to provide a fluent API for improved readability:
-
-```kotlin
-// Extension setup to enrich classes with new methods; only needed once
-fun Foo.toDto(): Dto = dto(this)
-fun Dto.toJson(): String = json(this)
-
-val json = foo.toDto().toJson()
-```
-
-**Java**
-
-Java is harder to read since multiple transformations result in increasing nesting levels. Creating a fluent API is not easy for third-party libraries beyond the developer's control:
-
-```java
-val json = json(dto(entity));
 ```
 
 ### Immutability
@@ -250,29 +255,26 @@ or
 
 ```java
 val bar = Optional.ofNullable(a)
-    .map(a -> a.getBar())
+    .map(a2 -> a2.getBar())
     .orElse(null);
 ```
 
-### Scope Functions
+### String templates
 
 **Kotlin**
 
-Allows for fluent code via method chaining and `it/this` references, e.g., to log the result of a `map(a)` invocation as a side effect of returning it:
+Reference variables directly from templated strings:
 
 ```kotlin
-return map(a).also { log { "result=$it" } }
+val s = "foo=$foo, bar=$bar"
 ```
 
 **Java**
 
-Java is more verbose and adds increased cognitive load due to "single use" variables which pollute a method's namespace instead of leveraging a fluent API:
+Java is harder to read, especially when using many variables, since string placeholder and referenced variable are often far apart:
 
 ```java
-val result = map(a);
-
-log("result={}",result);
-return result;
+val s = "foo=%s, bar=%s".formatted(foo, bar);
 ```
 
 ### Spaces in Test Methods
@@ -311,22 +313,24 @@ void user_word_logs_in(final String userName) {
 }
 ```
 
-### String templates
+### One-line Functions
 
 **Kotlin**
 
-Reference variables directly from templated strings:
+One-line function without result type, `return` statement, and braces to reduce ceremony and preserve screen real estate:
 
 ```kotlin
-val s = "foo=$foo, bar=$bar"
+fun add(a: Int, b: Int) = a + b
 ```
 
 **Java**
 
-Java is harder to read, especially when using many variables, since string placeholder and referenced variable are often far apart:
+Java consumes more vertical screen real estate, leading to additional scrolling and context switching:
 
 ```java
-val s = "foo=%s, bar=%s".formatted(foo, bar);
+int add(int a, int b) {
+    return a + b;
+}
 ```
 
 ### Nested Functions
@@ -358,24 +362,48 @@ private int helperOnlyUsedByFoo() {
 }
 ```
 
-### One-line Functions
+### Extension Functions
 
 **Kotlin**
 
-One-line function without result type, `return` statement, and braces to reduce ceremony and preserve screen real estate:
+Extend an existing Kotlin or Java API with new features, for example to provide a fluent API for improved readability:
 
 ```kotlin
-fun add(a: Int, b: Int) = a + b
+// Extension setup to enrich classes with new methods; only needed once
+fun Foo.toDto(): Dto = dto(this)
+fun Dto.toJson(): String = json(this)
+
+val json = foo.toDto().toJson()
 ```
 
 **Java**
 
-Java consumes more vertical screen real estate, leading to additional scrolling and context switching:
+Java is harder to read since multiple transformations result in increasing nesting levels. Creating a fluent API is not easy for third-party libraries beyond the developer's control:
 
 ```java
-int add(int a, int b) {
-    return a + b;
-}
+val json = json(dto(entity));
+```
+
+### Scope Functions
+
+**Kotlin**
+
+Allows for fluent code via method chaining and `it/this` references, e.g., to log the result of a `map(a)` invocation as a side effect of returning it:
+
+```kotlin
+return doSomething(a)
+    .also { log { "result=$it" } }
+```
+
+**Java**
+
+Java is more verbose and adds increased cognitive load due to "single use" variables which pollute a method's namespace instead of leveraging a fluent API:
+
+```java
+val result = doSomething(a);
+
+log("result={}",result);
+return result;
 ```
 
 ## Code Samples
