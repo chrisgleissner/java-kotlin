@@ -241,21 +241,30 @@ Access nullable fields via the [?.](https://kotlinlang.org/docs/null-safety.html
 
 ```kotlin
 val bar = a?.bar ?: null
+val departmentHeadBirthday = department.head?.birthday
 ```
 
 **Java**
 
-Java is more verbose, either using
+The equivalent Java code is considerably more difficult, especially when deeply nested fields are accessed. 
+
+One can either use null checks:
 
 ```java
 val bar = a == null ? null : a.getBar();
+val departmentHeadBirthday = (department != null && department.getHead() != null)
+    ? department.getHead().getBirthday()
+    : null;
 ```
 
-or
+or rely on Optional:
 
 ```java
 val bar = Optional.ofNullable(a)
     .map(a2 -> a2.getBar())
+    .orElse(null);
+val departmentHeadBirthday = Optional.ofNullable(department.getHead())
+    .map(Person::getBirthday)
     .orElse(null);
 ```
 
