@@ -53,6 +53,8 @@ Modern Java projects typically rely on [Project Lombok](https://projectlombok.or
 
 ## Resources
 
+### Guides
+
 A short selection of "Getting Started" guides:
 
 - [Syntax](https://kotlinlang.org/docs/basic-syntax.html)
@@ -60,6 +62,10 @@ A short selection of "Getting Started" guides:
 - [Kotlin Cheat Sheet](https://devhints.io/kotlin)
 - [Java to Kotlin Cheat Sheet](https://github.com/amitshekhariitbhu/from-java-to-kotlin)
 - [Kotlin Code Samples](https://learnxinyminutes.com/docs/kotlin/)
+
+### Talks
+
+- [Spring Boot & Kotlin: Pain or Gain?](https://www.youtube.com/watch?v=4u0S_E4hAl8&t=4s) by Urs Peter @ Spring I/O 2024. Discusses Kotlin benefits, its use in Spring Boot microservices, as well as simplified reactive development using Kotlin `couroutine`.
 
 ## Useful Kotlin Features
 
@@ -246,7 +252,7 @@ val departmentHeadBirthday = department.head?.birthday
 
 **Java**
 
-The equivalent Java code is considerably more difficult, especially when deeply nested fields are accessed. 
+The equivalent Java code is considerably more difficult, especially when deeply nested fields are accessed.
 
 One can either use null checks:
 
