@@ -22,7 +22,7 @@ dependencies {
     testImplementation "io.github.hakky54:logcaptor:2.9.+"
     testImplementation "org.assertj:assertj-core"
     testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.3.+'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.4.+'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.testcontainers:junit-jupiter"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
